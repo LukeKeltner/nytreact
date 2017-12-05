@@ -1,25 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class Results extends Component
-{
-	state = 
-	{
-		results: []
-	};
+const Results = props =>
 
-	render()
-	{
-		return(
+<div className="card">
+	<h4 className="card-header">Results</h4>
+	<div className="card-body">
+	{props.children}
+	</div>
+</div>
 
-			<div className="card">
-			  <h4 className="card-header">Results</h4>
-			  <div className="card-body">
-
-			  </div>
-			</div>
-
-		)
-	}
-}
 
 export default Results;

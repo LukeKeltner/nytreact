@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import API from "../utils/API";
+import Results from './Results'
+import Result from './Result'
 
 class Search extends Component
 {
@@ -21,19 +23,25 @@ class Search extends Component
 		event.preventDefault()
 		console.log(this.state)
 		API.getArticles()
-			.then(res =>
-				{
-					const array = res.data.response.docs.splice(0,5).map(object => JSON.stringify(object))
-					this.setState({"results": array})
-					console.log(array.length)
-				}
-			)
+		.then(res =>
+			{
+				const array = res.data.response.docs.splice(0,5).map(object => JSON.stringify(object))
+				this.setState({"results": array})
+				const test = JSON.parse(this.state.results[0])
+				console.log(test)
+			}
+		)
+	};
+
+	savebutton = event =>
+	{
+		console.log("hi!")
 	}
 
 	render()
 	{
 		return(
-
+			<div>
 			<div className="card">
 			  <h4 className="card-header">Search for Articles</h4>
 			  <div className="card-body">
@@ -52,9 +60,16 @@ class Search extends Component
 				  </div>
 				  <button type="submit" className="btn btn-primary" onClick={this.submitSearch}>Submit</button>
 				</form>
-
-				<p>{this.state.results}</p>
 			  </div>
+			</div>
+
+			<Results>
+			{this.state.results.map((obj,i) => 
+				
+					<Result key={i} title={JSON.parse(obj).headline.print_headline} date={JSON.parse(obj).pub_date} url={JSON.parse(obj).web_url} id={i}/>
+				)}
+
+			</Results>
 			</div>
 		)
 	}
