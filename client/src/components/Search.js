@@ -10,7 +10,7 @@ class Search extends Component
 		topic: "",
 		startYear: "",
 		endYear: "",
-		results: []
+		results: [],
 	};
 
 	updateField = event =>
@@ -22,20 +22,21 @@ class Search extends Component
 	{
 		event.preventDefault()
 		console.log(this.state)
-		API.getArticles()
+		API.getArticles(this.state.topic, this.state.startYear, this.state.endYear)
 		.then(res =>
 			{
-				const array = res.data.response.docs.splice(0,5).map(object => JSON.stringify(object))
+				const filter = res.data.response.docs.filter(object => object.headline.print_headline)
+				const array = filter.splice(0,5).map(object => JSON.stringify(object))
+				console.log(res.data.response.docs.splice(0,5))
 				this.setState({"results": array})
-				const test = JSON.parse(this.state.results[0])
-				console.log(test)
 			}
 		)
 	};
 
-	savebutton = event =>
+	saveArticle = event =>
 	{
-		console.log("hi!")
+		const art = JSON.parse(event.target.name)
+		console.log(art.headline.print_headline)
 	}
 
 	render()
@@ -66,7 +67,9 @@ class Search extends Component
 			<Results>
 			{this.state.results.map((obj,i) => 
 				
-					<Result key={i} title={JSON.parse(obj).headline.print_headline} date={JSON.parse(obj).pub_date} url={JSON.parse(obj).web_url} id={i}/>
+					<Result key={i} title={JSON.parse(obj).headline.main} date={JSON.parse(obj).pub_date} url={JSON.parse(obj).web_url} id={i}>
+					<br></br><button type="button" className="btn btn-warning save" name={obj} onClick={this.saveArticle}>Save</button>
+					</Result>
 				)}
 
 			</Results>
