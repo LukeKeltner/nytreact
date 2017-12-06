@@ -9,17 +9,17 @@ export default {
 
   getSavedArticles: function()
   {
-  	return axios.get("/hi");
+  	return axios.get("/api");
   },
 
   saveNewArticle: function(data)
   {
-  	return axios.post("/hi", data)
+  	return axios.post("/api", data)
   },
 
   deleteArticle: function(data)
   {
-  	return axios.delete("/hi/"+data)
+  	return axios.delete("/api/"+data)
   }
 
 };

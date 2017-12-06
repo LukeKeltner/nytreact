@@ -61,7 +61,7 @@ class Search extends Component
 	{
 		const data = 
 		{
-			"title": event.target.name
+			"_id": event.target.event
 		}
 		console.log(data)
 
@@ -76,7 +76,7 @@ class Search extends Component
 					}).catch(err => console.log(err));
 		})
 
-	}
+	};
 
 	componentDidMount = () =>
 	{
@@ -127,7 +127,7 @@ class Search extends Component
 			{this.state.saved.map((obj,i) => 
 				
 					<Result key={i} title={obj.title} date={obj.date} url={obj.url} id={i}>
-					<br></br><button type="button" className="btn btn-warning save" name={obj.title} onClick={this.deleteArticle}>Delete</button>
+					<br></br><button type="button" className="btn btn-warning save" name={obj._id} onClick={this.deleteArticle}>Delete</button>
 					</Result>
 				)}
 			</Saved>

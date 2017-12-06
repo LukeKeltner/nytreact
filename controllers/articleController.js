@@ -23,7 +23,7 @@ module.exports =
   remove: function(req, res) {
     console.log(req.params.title)
     db.Article
-      .remove({"title": req.params.title})
+      .remove({"_id": req.params.title})
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   }

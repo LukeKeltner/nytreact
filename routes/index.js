@@ -6,12 +6,12 @@ const articleController = require("../controllers/articleController");
 /*// API Routes
 router.use("/api", apiRoutes);*/
 
-router.route("/hi")
+router.route("/api")
   .get(articleController.findAll)
   .post(articleController.create)
   .delete(articleController.remove);
 
-router.route("/hi/:title")
+router.route("/api/:title")
 	.delete(articleController.remove)
 
 // If no API routes are hit, send the React app
