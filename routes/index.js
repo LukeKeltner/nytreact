@@ -1,10 +1,6 @@
 const path = require("path");
 const router = require("express").Router();
-const apiRoutes = require("./api");
 const articleController = require("../controllers/articleController");
-
-/*// API Routes
-router.use("/api", apiRoutes);*/
 
 router.route("/api")
   .get(articleController.findAll)
