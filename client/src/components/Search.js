@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import API from "../utils/API";
 import Results from './Results'
 import Result from './Result'
+import Saved from './Saved'
 
 class Search extends Component
 {
@@ -11,6 +12,7 @@ class Search extends Component
 		startYear: "",
 		endYear: "",
 		results: [],
+		saved: []
 	};
 
 	updateField = event =>
@@ -35,8 +37,55 @@ class Search extends Component
 
 	saveArticle = event =>
 	{
-		const art = JSON.parse(event.target.name)
-		console.log(art.headline.print_headline)
+		const article = JSON.parse(event.target.name)
+		const data = 
+		{
+			"title": article.headline.main,
+			"date": article.pub_date,
+			"url": article.web_url
+		}
+
+		API.saveNewArticle(data)
+			.then(res =>
+			{
+				API.getSavedArticles().then(res =>
+					{
+						this.setState({saved: res.data})
+						console.log(this.state.saved)
+
+					}).catch(err => console.log(err));
+			})
+	};
+
+	deleteArticle = event =>
+	{
+		const data = 
+		{
+			"title": event.target.name
+		}
+		console.log(data)
+
+		API.deleteArticle(event.target.name)
+		.then(res =>
+		{
+					API.getSavedArticles().then(res =>
+					{
+						this.setState({saved: res.data})
+						console.log(this.state.saved)
+
+					}).catch(err => console.log(err));
+		})
+
+	}
+
+	componentDidMount = () =>
+	{
+		API.getSavedArticles().then(res =>
+			{
+				this.setState({saved: res.data})
+				console.log(this.state.saved)
+
+			}).catch(err => console.log(err));
 	}
 
 	render()
@@ -73,6 +122,15 @@ class Search extends Component
 				)}
 
 			</Results>
+
+			<Saved>
+			{this.state.saved.map((obj,i) => 
+				
+					<Result key={i} title={obj.title} date={obj.date} url={obj.url} id={i}>
+					<br></br><button type="button" className="btn btn-warning save" name={obj.title} onClick={this.deleteArticle}>Delete</button>
+					</Result>
+				)}
+			</Saved>
 			</div>
 		)
 	}
